@@ -79,7 +79,7 @@ function checkForDuplicates() {
 //   while
 //   (imageProducts[imageArray[0]].previouslyShowed === true ||
   // imageProducts[imageArray[1]].previouslyShowed === true ||
-  // imageProducts[imageArray[0]].previouslyShowed === true ) {
+  // imageProducts[imageArray[2]].previouslyShowed === true ) {
 //     console.log('previously showed');
 //     addToImageArray();
 //   }
@@ -107,9 +107,8 @@ function render() {
   createPicture(centerImage, 1);
   createPicture(rightImage, 2);
   numberOfUserClicks ++;
-  if (numberOfUserClicks > 5) {
-    ulEl.removeEventListener('click', render);
-    console.log('this is broken');
+  if (numberOfUserClicks > 25) {
+    ulEl.removeEventListener('click', handleClick);
   }
   return numberOfUserClicks;
 }
