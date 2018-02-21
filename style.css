@@ -1,0 +1,17 @@
+h1, h2 {
+  text-align: center;
+}
+
+body {
+  background-color: darkgray;
+}
+ul {
+  background-color: darkgreen;
+  list-style: none;
+  width: 800px;
+}
+
+ul li {
+  display: inline-block;
+  margin: 50px auto;
+}
