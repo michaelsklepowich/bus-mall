@@ -1,6 +1,7 @@
 'use strict';
 
 var imageProducts = [];
+var ulEl = document.getElementById('list');
 var leftImage = document.getElementById('left');
 var centerImage = document.getElementById('center');
 var rightImage = document.getElementById('right');
@@ -58,25 +59,77 @@ function addToImageArray() {
   return imageArray;
 }
 
+//something is very wrong here
 function checkForDuplicates() {
-  while (imageArray[0] === imageArray[1] || imageArray[0] === imageArray[2] || imageArray[1] === imageArray[2]) {
+  while
+  ( imageArray[0] === imageArray[1] ||
+    imageArray[0] === imageArray[2] ||
+    imageArray[1] === imageArray[2] ||
+    imageProducts[imageArray[0]].previouslyShowed === true ||
+    imageProducts[imageArray[1]].previouslyShowed === true ||
+    imageProducts[imageArray[0]].previouslyShowed === true) {
     console.log('duplicate');
     addToImageArray();
   }
   return imageArray;
 }
 
-function createImages(imgEl, placeInArray){
+// function checkForPrevious() {
+//   while
+//   (imageProducts[imageArray[0]].previouslyShowed === true ||
+  // imageProducts[imageArray[1]].previouslyShowed === true ||
+  // imageProducts[imageArray[0]].previouslyShowed === true ) {
+//     console.log('previously showed');
+//     addToImageArray();
+//   }
+//   return imageArray;
+// }
+
+function createPicture(imgEl, placeInArray){
   imgEl.src = imageProducts[imageArray[placeInArray]].filepath;
   imgEl.alt = imageProducts[imageArray[placeInArray]].name;
   imgEl.title = imageProducts[imageArray[placeInArray]].name;
+  imageProducts[imageArray[placeInArray]].timesShown += 1;
+  imageProducts[imageArray[placeInArray]].previouslyShowed = true;
+  for (var i =0; i < imageProducts.length; i++) {
+    if (imgEl.title !== imageProducts[i].name) {
+      imageProducts[i].previouslyShowed = false;
+    }
+  }
 }
 
-addToImageArray();
-checkForDuplicates();
-createImages(leftImage, 0);
-createImages(centerImage, 1);
-createImages(rightImage, 2);
+
+
+function render() {
+  addToImageArray();
+  checkForDuplicates();
+  //checkForPrevious();
+  createPicture(leftImage, 0);
+  createPicture(centerImage, 1);
+  createPicture(rightImage, 2);
+  numberOfUserClicks ++;
+  if (numberOfUserClicks > 5) {
+    ulEl.removeEventListener('click', render);
+    console.log('this is broken');
+  }
+  return numberOfUserClicks;
+}
+
+function handleClick(event) {
+  console.log(event.target.alt);
+  for (var i = 0; i < imageProducts.length; i++) {
+    if (event.target.alt === imageProducts[i].name) {
+      console.log('CLICK', numberOfUserClicks)
+      imageProducts[i].timesClicked += 1;
+    }
+  }
+  render();
+}
+
+render();
+
+ulEl.addEventListener('click', handleClick);
+
 
 //event listener to handle clicks on images which clears, appends and adds to times clicked and showed
 //render function to have initial pictures
