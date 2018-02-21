@@ -68,7 +68,7 @@ function checkForDuplicates() {
     imageArray[1] === imageArray[2] ||
     imageProducts[imageArray[0]].previouslyShowed === true ||
     imageProducts[imageArray[1]].previouslyShowed === true ||
-    imageProducts[imageArray[0]].previouslyShowed === true) {
+    imageProducts[imageArray[2]].previouslyShowed === true) {
     console.log('duplicate');
     addToImageArray();
   }
