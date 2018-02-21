@@ -8,9 +8,9 @@ var numberOfUserClicks = 0;
 var imageArray = [null, null, null];
 
 //constructor function
-function ImageConstruct(name, filePath) {
+function ImageConstruct(name, filepath) {
   this.name = name;
-  this.filepath = filePath;
+  this.filepath = filepath;
   this.timesShown = 0;
   this.timesClicked = 0;
   this.previouslyShowed = false;
@@ -25,14 +25,14 @@ new ImageConstruct('boots', 'img/boots.jpg');
 new ImageConstruct('breakfast', 'img/breakfast.jpg');
 new ImageConstruct('bubblegum', 'img/bubblegum.jpg');
 new ImageConstruct('chair', 'img/chair.jpg');
-new ImageConstruct('cthulu', 'img/cthulu.jpg');
+new ImageConstruct('cthulhu', 'img/cthulhu.jpg');
 new ImageConstruct('dog-duck', 'img/dog-duck.jpg');
 new ImageConstruct('dragon', 'img/dragon.jpg');
 new ImageConstruct('pen', 'img/pen.jpg');
 new ImageConstruct('pet-sweep', 'img/pet-sweep.jpg');
 new ImageConstruct('scissors', 'img/scissors.jpg');
 new ImageConstruct('shark', 'img/shark.jpg');
-new ImageConstruct('sweep', 'img/sweep.jpg');
+new ImageConstruct('sweep', 'img/sweep.png');
 new ImageConstruct('tauntaun', 'img/tauntaun.jpg');
 new ImageConstruct('unicorn', 'img/unicorn.jpg');
 new ImageConstruct('usb', 'img/usb.gif');
@@ -54,22 +54,29 @@ function addToImageArray() {
     imageArray[i] = addToArray;
     }
   }
+  console.log(imageArray);
+  return imageArray;
 }
 
-function checkPreviouslyShown() {
-  for(var i = 0; i < imageProducts.length; i++) {
-    if(imageProducts[i].previouslyShowed = true){
-      console.log('duplicate detected');
-    } else {
-      console.log('no duplicate');
-    }
+function checkForDuplicates() {
+  while (imageArray[0] === imageArray[1] || imageArray[0] === imageArray[2] || imageArray[1] === imageArray[2]) {
+    console.log('duplicate');
+    addToImageArray();
   }
+  return imageArray;
 }
 
-function render(){
-  
+function createImages(imgEl, placeInArray){
+  imgEl.src = imageProducts[imageArray[placeInArray]].filepath;
+  imgEl.alt = imageProducts[imageArray[placeInArray]].name;
+  imgEl.title = imageProducts[imageArray[placeInArray]].name;
 }
 
-//appending images to dom in the list elements
+addToImageArray();
+checkForDuplicates();
+createImages(leftImage, 0);
+createImages(centerImage, 1);
+createImages(rightImage, 2);
+
 //event listener to handle clicks on images which clears, appends and adds to times clicked and showed
 //render function to have initial pictures
