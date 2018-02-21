@@ -45,6 +45,7 @@ function randomNumber() {
   return Math.floor(Math.random() * imageProducts.length);
 }
 
+//creates a 3-index array for the left center and right pictures
 function addToImageArray() {
   for(var i = 0; i < imageArray.length; i++){
     var addToArray = randomNumber();
@@ -97,8 +98,6 @@ function createPicture(imgEl, placeInArray){
     }
   }
 }
-
-
 
 function render() {
   addToImageArray();
