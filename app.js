@@ -50,7 +50,7 @@ function addToImageArray() {
   for(var i = 0; i < imageArray.length; i++){
     var addToArray = randomNumber();
     if(addToArray === imageArray[i]){
-      console.log('duplicate');
+      console.log('duplicate number');
       addToArray = randomNumber();
     } else {
     imageArray[i] = addToArray;
@@ -69,7 +69,7 @@ function checkForDuplicates() {
     imageProducts[imageArray[0]].previouslyShowed === true ||
     imageProducts[imageArray[1]].previouslyShowed === true ||
     imageProducts[imageArray[2]].previouslyShowed === true) {
-    console.log('duplicate');
+    console.log('duplicate image');
     addToImageArray();
   }
   return imageArray;
@@ -86,14 +86,24 @@ function checkForDuplicates() {
 //   return imageArray;
 // }
 
-function createPicture(imgEl, placeInArray){
-  imgEl.src = imageProducts[imageArray[placeInArray]].filepath;
-  imgEl.alt = imageProducts[imageArray[placeInArray]].name;
-  imgEl.title = imageProducts[imageArray[placeInArray]].name;
-  imageProducts[imageArray[placeInArray]].timesShown += 1;
-  imageProducts[imageArray[placeInArray]].previouslyShowed = true;
+function createPicture(){
+  leftImage.src = imageProducts[imageArray[0]].filepath;
+  leftImage.alt = imageProducts[imageArray[0]].name;
+  leftImage.title = imageProducts[imageArray[0]].name;
+  centerImage.src = imageProducts[imageArray[1]].filepath;
+  centerImage.alt = imageProducts[imageArray[1]].name;
+  centerImage.title = imageProducts[imageArray[1]].name;
+  rightImage.src = imageProducts[imageArray[2]].filepath;
+  rightImage.alt = imageProducts[imageArray[2]].name;
+  rightImage.title = imageProducts[imageArray[2]].name;
+  imageProducts[imageArray[0]].timesShown += 1;
+  imageProducts[imageArray[1]].timesShown += 1;
+  imageProducts[imageArray[2]].timesShown += 1;
+  imageProducts[imageArray[0]].previouslyShowed = true;
+  imageProducts[imageArray[1]].previouslyShowed = true;
+  imageProducts[imageArray[2]].previouslyShowed = true;
   for (var i =0; i < imageProducts.length; i++) {
-    if (imgEl.title !== imageProducts[i].name) {
+    if (leftImage.title !== imageProducts[i].name && centerImage.title !== imageProducts[i].name && rightImage.title !== imageProducts[i].name) {
       imageProducts[i].previouslyShowed = false;
     }
   }
@@ -103,9 +113,7 @@ function render() {
   addToImageArray();
   checkForDuplicates();
   //checkForPrevious();
-  createPicture(leftImage, 0);
-  createPicture(centerImage, 1);
-  createPicture(rightImage, 2);
+  createPicture();
   numberOfUserClicks ++;
   if (numberOfUserClicks > 25) {
     ulEl.removeEventListener('click', handleClick);
