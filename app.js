@@ -23,6 +23,13 @@ function ImageConstruct(name, filepath) {
 }
 
 //creating instances
+if (localStorage.getItem('imageProducts')) {
+  imageProducts = JSON.parse(localStorage.getItem('imageProducts'));
+  for (var i = 0; i < imageProducts.length; i++) {
+    graphLabel[i] = imageProducts[i].name;
+    graphData[i] = imageProducts[i].timesClicked;
+  }
+} else {
 new ImageConstruct('bag', 'img/bag.jpg');
 new ImageConstruct('banana', 'img/banana.jpg');
 new ImageConstruct('bathroom', 'img/bathroom.jpg');
@@ -42,6 +49,7 @@ new ImageConstruct('tauntaun', 'img/tauntaun.jpg');
 new ImageConstruct('unicorn', 'img/unicorn.jpg');
 new ImageConstruct('usb', 'img/usb.gif');
 new ImageConstruct('water-can', 'img/water-can.jpg');
+}
 
 
 //random number generator for showing images
@@ -107,9 +115,10 @@ function render() {
   //checkForPrevious();
   createPicture();
   numberOfUserClicks ++;
-  if (numberOfUserClicks > 25) {
+  if (numberOfUserClicks > 5) {
     ulEl.removeEventListener('click', handleClick);
     ulEl.style.display = 'none';
+    localStorage.setItem('imageProducts', JSON.stringify(imageProducts));
     updateGraphData();
     createChart();
   }
@@ -128,7 +137,6 @@ function handleClick(event) {
 }
 
 render();
-ulEl.addEventListener('click', handleClick);
 
 var data = {
   labels: graphLabel,
@@ -184,3 +192,5 @@ function createChart () {
     }
   });
 }
+
+ulEl.addEventListener('click', handleClick);
