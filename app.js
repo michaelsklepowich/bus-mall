@@ -5,7 +5,10 @@ var ulEl = document.getElementById('list');
 var leftImage = document.getElementById('left');
 var centerImage = document.getElementById('center');
 var rightImage = document.getElementById('right');
+var graphLabel = [];
+var graphData = [];
 var numberOfUserClicks = 0;
+var clickChart;
 var imageArray = [null, null, null];
 
 //constructor function
@@ -16,6 +19,7 @@ function ImageConstruct(name, filepath) {
   this.timesClicked = 0;
   this.previouslyShowed = false;
   imageProducts.push(this);
+  graphLabel.push(name);
 }
 
 //creating instances
@@ -60,7 +64,6 @@ function addToImageArray() {
   return imageArray;
 }
 
-//something is very wrong here
 function checkForDuplicates() {
   while
   ( imageArray[0] === imageArray[1] ||
@@ -74,17 +77,6 @@ function checkForDuplicates() {
   }
   return imageArray;
 }
-
-// function checkForPrevious() {
-//   while
-//   (imageProducts[imageArray[0]].previouslyShowed === true ||
-  // imageProducts[imageArray[1]].previouslyShowed === true ||
-  // imageProducts[imageArray[2]].previouslyShowed === true ) {
-//     console.log('previously showed');
-//     addToImageArray();
-//   }
-//   return imageArray;
-// }
 
 function createPicture(){
   leftImage.src = imageProducts[imageArray[0]].filepath;
@@ -117,6 +109,9 @@ function render() {
   numberOfUserClicks ++;
   if (numberOfUserClicks > 25) {
     ulEl.removeEventListener('click', handleClick);
+    ulEl.style.display = 'none';
+    updateGraphData();
+    createChart();
   }
   return numberOfUserClicks;
 }
@@ -133,9 +128,59 @@ function handleClick(event) {
 }
 
 render();
-
 ulEl.addEventListener('click', handleClick);
 
+var data = {
+  labels: graphLabel,
+  datasets: [{
+    label: 'Toggle Data',
+    data: graphData,
+    backgroundColor: [
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+      'gray',
+    ],
+    hoverBackgroundColor: 'black'
+  }]
+};
 
-//event listener to handle clicks on images which clears, appends and adds to times clicked and showed
-//render function to have initial pictures
+function updateGraphData () {
+  for (var i = 0; i < imageProducts.length; i++) {
+    graphData[i] = imageProducts[i].timesClicked;
+  }
+}
+
+function createChart () {
+  var ctx = document.getElementById('bargraph').getContext('2d');
+
+  clickChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
